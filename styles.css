@@ -418,15 +418,16 @@ section {
 
 .timeline {
   position: relative;
-  padding-left: 32px;
+  list-style: none;
+  padding-left: 40px;
 }
 
 .timeline::before {
   content: "";
   position: absolute;
-  left: 5px;
-  top: 6px;
-  bottom: 6px;
+  left: 7px;
+  top: 8px;
+  bottom: 8px;
   width: 2px;
   background: var(--border);
 }
@@ -434,17 +435,18 @@ section {
 .timeline::after {
   content: "";
   position: absolute;
-  left: 5px;
-  top: 6px;
+  left: 7px;
+  top: 8px;
   width: 2px;
   height: var(--timeline-progress, 0%);
   background: linear-gradient(var(--accent), var(--accent-2));
   transition: height 0.15s linear;
+  z-index: 0;
 }
 
 .timeline-item {
   position: relative;
-  padding-bottom: 44px;
+  padding-bottom: 52px;
 }
 
 .timeline-item:last-child {
@@ -453,13 +455,25 @@ section {
 
 .timeline-dot {
   position: absolute;
-  left: -32px;
+  left: -40px;
   top: 6px;
-  width: 12px;
-  height: 12px;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
-  background: var(--bg);
-  border: 2px solid var(--accent);
+  background: transparent;
+  border: 2px solid var(--border-strong);
+  z-index: 1;
+  transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.timeline-item.reached .timeline-dot {
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 0 12px rgba(212, 255, 63, 0.4);
+}
+
+.timeline-item.current .timeline-dot {
+  transform: scale(1.15);
 }
 
 .timeline-head {

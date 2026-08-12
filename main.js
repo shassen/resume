@@ -71,16 +71,38 @@
 
   /* ---------- Timeline draw-on-scroll ---------- */
   const timeline = document.querySelector(".timeline");
+  const timelineItems = timeline
+    ? Array.from(timeline.querySelectorAll(".timeline-item"))
+    : [];
+
+  const syncTimelineDots = (progressPx) => {
+    let lastReachedIndex = -1;
+
+    timelineItems.forEach((item, index) => {
+      // Progress rail starts at top: 8px; fill when the bar reaches this item's dot
+      const reached = progressPx >= item.offsetTop;
+      item.classList.toggle("reached", reached);
+      if (reached) lastReachedIndex = index;
+    });
+
+    timelineItems.forEach((item, index) => {
+      item.classList.toggle("current", index === lastReachedIndex);
+    });
+  };
 
   if (timeline && !prefersReducedMotion) {
     const updateTimelineProgress = () => {
       const rect = timeline.getBoundingClientRect();
       const viewportH = window.innerHeight;
       const start = viewportH * 0.85;
-      const total = rect.height + viewportH * 0.3;
+      const railHeight = Math.max(timeline.offsetHeight - 16, 1);
+      const total = railHeight + viewportH * 0.3;
       const progressed = Math.min(Math.max(start - rect.top, 0), total);
-      const pct = total > 0 ? (progressed / total) * 100 : 0;
+      const pct = (progressed / total) * 100;
+      const progressPx = (pct / 100) * railHeight;
+
       timeline.style.setProperty("--timeline-progress", `${pct}%`);
+      syncTimelineDots(progressPx);
     };
 
     document.addEventListener("scroll", updateTimelineProgress, { passive: true });
@@ -88,6 +110,10 @@
     updateTimelineProgress();
   } else if (timeline) {
     timeline.style.setProperty("--timeline-progress", "100%");
+    timelineItems.forEach((item, index) => {
+      item.classList.add("reached");
+      item.classList.toggle("current", index === timelineItems.length - 1);
+    });
   }
 
   /* ---------- Hero mouse-reactive glow (desktop, motion allowed) ---------- */
