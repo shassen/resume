@@ -71,23 +71,72 @@
 
   /* ---------- Timeline draw-on-scroll ---------- */
   const timeline = document.querySelector(".timeline");
+  const timelineItems = timeline
+    ? Array.from(timeline.querySelectorAll(".timeline-item"))
+    : [];
+
+  const syncTimelineDots = (progressPx) => {
+    let lastReachedIndex = -1;
+
+    timelineItems.forEach((item, index) => {
+      const dotCenter = item.offsetTop + 14;
+      const reached = progressPx + 14 >= dotCenter;
+      item.classList.toggle("reached", reached);
+      if (reached) lastReachedIndex = index;
+    });
+
+    timelineItems.forEach((item, index) => {
+      item.classList.toggle("current", index === lastReachedIndex);
+    });
+
+    // Fill segment rails between dots (from bottom of this dot to center of next)
+    timelineItems.forEach((item, index) => {
+      if (index >= timelineItems.length - 1) return;
+
+      const segmentStart = item.offsetTop + 22;
+      const segmentEnd = timelineItems[index + 1].offsetTop + 14;
+      const segmentLen = segmentEnd - segmentStart;
+      const fill = Math.min(Math.max(progressPx + 14 - segmentStart, 0), segmentLen);
+
+      item.style.setProperty("--segment-fill", `${fill}px`);
+    });
+  };
 
   if (timeline && !prefersReducedMotion) {
     const updateTimelineProgress = () => {
       const rect = timeline.getBoundingClientRect();
       const viewportH = window.innerHeight;
       const start = viewportH * 0.85;
-      const total = rect.height + viewportH * 0.3;
+      const railStart = 14;
+      const lastDotCenter =
+        timelineItems.length > 0
+          ? timelineItems[timelineItems.length - 1].offsetTop + 14
+          : railStart;
+      const railLength = Math.max(lastDotCenter - railStart, 1);
+      const total = railLength + viewportH * 0.3;
       const progressed = Math.min(Math.max(start - rect.top, 0), total);
-      const pct = total > 0 ? (progressed / total) * 100 : 0;
-      timeline.style.setProperty("--timeline-progress", `${pct}%`);
+      const progressPx = Math.min(
+        Math.max(((progressed / total) * railLength), 0),
+        railLength
+      );
+
+      syncTimelineDots(progressPx);
     };
 
     document.addEventListener("scroll", updateTimelineProgress, { passive: true });
     window.addEventListener("resize", updateTimelineProgress);
     updateTimelineProgress();
   } else if (timeline) {
-    timeline.style.setProperty("--timeline-progress", "100%");
+    timelineItems.forEach((item, index) => {
+      item.classList.add("reached");
+      item.classList.toggle("current", index === timelineItems.length - 1);
+
+      if (index < timelineItems.length - 1) {
+        const segmentStart = item.offsetTop + 22;
+        const segmentEnd = timelineItems[index + 1].offsetTop + 14;
+        item.style.setProperty("--segment-fill", `${segmentEnd - segmentStart}px`);
+      }
+    });
   }
 
   /* ---------- Hero mouse-reactive glow (desktop, motion allowed) ---------- */
