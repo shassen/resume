@@ -416,32 +416,45 @@ section {
 
 /* ============ Timeline ============ */
 
+@keyframes timeline-dot-pulse {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(212, 255, 63, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(212, 255, 63, 0.55);
+  }
+}
+
 .timeline {
   position: relative;
   list-style: none;
   padding-left: 40px;
 }
 
-.timeline::before {
+/* Per-segment rails (between dots only — never through bullets).
+   left: -33px centers the 2px line on the dot's center (dot is left:-40px, 16px wide → center at -32px). */
+.timeline-item:not(:last-child)::before {
   content: "";
   position: absolute;
-  left: 7px;
-  top: 8px;
-  bottom: 8px;
+  left: -33px;
+  top: 22px;
   width: 2px;
+  height: calc(100% - 8px);
   background: var(--border);
+  z-index: 0;
 }
 
-.timeline::after {
+.timeline-item:not(:last-child)::after {
   content: "";
   position: absolute;
-  left: 7px;
-  top: 8px;
+  left: -33px;
+  top: 22px;
   width: 2px;
-  height: var(--timeline-progress, 0%);
-  background: linear-gradient(var(--accent), var(--accent-2));
-  transition: height 0.15s linear;
+  height: var(--segment-fill, 0px);
+  max-height: calc(100% - 8px);
+  background: linear-gradient(to bottom, var(--accent), var(--accent-2));
   z-index: 0;
+  transition: height 0.15s linear;
 }
 
 .timeline-item {
@@ -460,7 +473,7 @@ section {
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  background: transparent;
+  background: var(--bg);
   border: 2px solid var(--border-strong);
   z-index: 1;
   transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
@@ -469,11 +482,11 @@ section {
 .timeline-item.reached .timeline-dot {
   background: var(--accent);
   border-color: var(--accent);
-  box-shadow: 0 0 12px rgba(212, 255, 63, 0.4);
+  animation: timeline-dot-pulse 2.8s ease-in-out infinite;
 }
 
 .timeline-item.current .timeline-dot {
-  transform: scale(1.15);
+  transform: scale(1.12);
 }
 
 .timeline-head {
