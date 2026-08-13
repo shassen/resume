@@ -139,19 +139,6 @@
     });
   }
 
-  /* ---------- Hero mouse-reactive glow (desktop, motion allowed) ---------- */
-  const hero = document.querySelector(".hero");
-
-  if (hero && isFinePointer && !prefersReducedMotion) {
-    hero.addEventListener("mousemove", (e) => {
-      const rect = hero.getBoundingClientRect();
-      const x = ((e.clientX - rect.left) / rect.width) * 100;
-      const y = ((e.clientY - rect.top) / rect.height) * 100;
-      hero.style.setProperty("--mx", `${x}%`);
-      hero.style.setProperty("--my", `${y}%`);
-    });
-  }
-
   /* ---------- Magnetic buttons ---------- */
   if (isFinePointer && !prefersReducedMotion) {
     document.querySelectorAll(".magnetic").forEach((btn) => {
@@ -182,5 +169,17 @@
     document.addEventListener("mouseleave", () => {
       glowCursor.classList.remove("active");
     });
+
+    // The glow only repositions on mousemove, so scrolling the page with a
+    // stationary pointer (trackpad/wheel) leaves it glued to a stale screen
+    // position while content scrolls underneath it. Fade it out during
+    // scroll; it reappears on the next real mousemove once scrolling settles.
+    window.addEventListener(
+      "scroll",
+      () => {
+        glowCursor.classList.remove("active");
+      },
+      { passive: true }
+    );
   }
 })();
