@@ -129,7 +129,9 @@ section {
 .reveal {
   opacity: 0;
   transform: translateY(28px);
-  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+  transition:
+    opacity 0.7s var(--ease),
+    transform 0.7s var(--ease);
 }
 
 .reveal.in-view {
@@ -138,9 +140,15 @@ section {
 }
 
 /* stagger children that opt in */
-.timeline-item.reveal:nth-child(2) { transition-delay: 0.06s; }
-.timeline-item.reveal:nth-child(3) { transition-delay: 0.12s; }
-.timeline-item.reveal:nth-child(4) { transition-delay: 0.18s; }
+.timeline-item.reveal:nth-child(2) {
+  transition-delay: 0.06s;
+}
+.timeline-item.reveal:nth-child(3) {
+  transition-delay: 0.12s;
+}
+.timeline-item.reveal:nth-child(4) {
+  transition-delay: 0.18s;
+}
 
 /* ============ Nav ============ */
 
@@ -181,7 +189,9 @@ section {
 }
 
 @keyframes blink {
-  50% { opacity: 0; }
+  50% {
+    opacity: 0;
+  }
 }
 
 .nav-links {
@@ -251,7 +261,9 @@ section {
   height: 2px;
   width: 100%;
   background: var(--text);
-  transition: transform 0.25s ease, opacity 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    opacity 0.25s ease;
 }
 
 .nav-toggle[aria-expanded="true"] span:nth-child(1) {
@@ -281,10 +293,18 @@ section {
   position: absolute;
   inset: 0;
   z-index: -1;
-  background:
-    radial-gradient(600px circle at var(--mx, 50%) var(--my, 30%), rgba(212, 255, 63, 0.09), transparent 60%),
-    radial-gradient(800px circle at 80% 80%, rgba(124, 92, 255, 0.12), transparent 60%);
-  transition: background 0.2s ease;
+  background: radial-gradient(
+    800px circle at 80% 80%,
+    rgba(124, 92, 255, 0.12),
+    transparent 60%
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 70%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(to bottom, #000 0%, #000 70%, transparent 100%);
 }
 
 .hero-inner {
@@ -348,8 +368,15 @@ section {
 }
 
 @keyframes scroll-cue-bounce {
-  0%, 100% { transform: translateY(0); opacity: 1; }
-  50% { transform: translateY(10px); opacity: 0.3; }
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(10px);
+    opacity: 0.3;
+  }
 }
 
 /* ============ Buttons ============ */
@@ -365,7 +392,11 @@ section {
   text-decoration: none;
   border: 1px solid transparent;
   cursor: pointer;
-  transition: transform 0.2s var(--ease), background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  transition:
+    transform 0.2s var(--ease),
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
   will-change: transform;
 }
 
@@ -417,7 +448,8 @@ section {
 /* ============ Timeline ============ */
 
 @keyframes timeline-dot-pulse {
-  0%, 100% {
+  0%,
+  100% {
     box-shadow: 0 0 10px rgba(212, 255, 63, 0.3);
   }
   50% {
@@ -476,7 +508,11 @@ section {
   background: var(--bg);
   border: 2px solid var(--border-strong);
   z-index: 1;
-  transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.25s ease;
 }
 
 .timeline-item.reached .timeline-dot {
@@ -566,7 +602,11 @@ section {
   border: 1px solid var(--border-strong);
   background: var(--bg-card);
   color: var(--text-dim);
-  transition: transform 0.2s var(--ease), border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s var(--ease),
+    border-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
   cursor: default;
 }
 
@@ -591,14 +631,21 @@ section {
 .project-glow {
   position: absolute;
   inset: -40%;
-  background: conic-gradient(from 180deg, var(--accent-2), var(--accent), var(--accent-2));
+  background: conic-gradient(
+    from 180deg,
+    var(--accent-2),
+    var(--accent),
+    var(--accent-2)
+  );
   opacity: 0.16;
   animation: spin 12s linear infinite;
   z-index: 0;
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .project-card-inner {
@@ -686,7 +733,9 @@ section {
   border-radius: 12px;
   border: 1px solid var(--border);
   background: var(--bg-card);
-  transition: transform 0.25s var(--ease), border-color 0.25s ease;
+  transition:
+    transform 0.25s var(--ease),
+    border-color 0.25s ease;
 }
 
 .edu-card:hover {
@@ -736,7 +785,9 @@ section {
   border: 1px solid var(--border);
   background: var(--bg-card);
   text-decoration: none;
-  transition: transform 0.2s var(--ease), border-color 0.2s ease;
+  transition:
+    transform 0.2s var(--ease),
+    border-color 0.2s ease;
 }
 
 .contact-link:hover {
@@ -783,7 +834,11 @@ section {
   width: 300px;
   height: 300px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(212, 255, 63, 0.06), transparent 70%);
+  background: radial-gradient(
+    circle,
+    rgba(212, 255, 63, 0.06),
+    transparent 70%
+  );
   transform: translate(-50%, -50%);
   pointer-events: none;
   z-index: 1;
