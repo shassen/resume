@@ -827,7 +827,8 @@ section {
     border-bottom: 1px solid var(--border);
   }
 
-  .nav-cta {
+  .nav-links a.nav-cta {
+    width: calc(100% - 48px);
     margin: 12px 24px;
   }
 
