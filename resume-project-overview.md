@@ -89,7 +89,7 @@ been treated as acceptable given the amount of real content, but avoid pushing i
   - Domain-specific jargon (e.g. "RBAC", "scheduling-group access control", literal
     persona names like "agents/supervisors/admins") was deliberately generalized to
     broader, role-agnostic language so the resume reads well outside the WFM domain.
-  - Career-milestone details (founding engineer pre-GA, $1M+ MRR, ZP2→ZP3 promotion) are
+  - Career-milestone details (original engineering-team member pre-GA, $1M+ MRR, ZP2→ZP3 promotion) are
     real facts supplied by the user — treat these as accurate and preserve them; don't
     soften or drop the specific numbers.
 - When a role has a notable one-line status (e.g. "Acquired by Zoom" for Solvvy,
